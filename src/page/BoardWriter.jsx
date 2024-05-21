@@ -15,10 +15,12 @@ export function BoardWriter() {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [writer, setWriter] = useState("");
+  const [loading, setLoading] = useState(false);
   const toast = useToast();
   const navigate = useNavigate();
 
   function handleSaveClick() {
+    setLoading(true);
     axios
       .post("/api/board/add", {
         title,
@@ -44,7 +46,7 @@ export function BoardWriter() {
           });
         }
       })
-      .finally();
+      .finally(() => setLoading(false));
   }
 
   let disableSaveButton = false;
@@ -79,6 +81,7 @@ export function BoardWriter() {
       </Box>
       <Box>
         <Button
+          isLoading={loading}
           isDisabled={disableSaveButton}
           colorScheme={"blue"}
           onClick={handleSaveClick}
