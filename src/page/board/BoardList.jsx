@@ -19,11 +19,13 @@ export function BoardList() {
       <Box>
         <Table>
           <Thead>
-            <Th>#</Th>
-            <Th>TITLE</Th>
-            <Th>
-              <FontAwesomeIcon icon={faUserSecret} />
-            </Th>
+            <Tr>
+              <Th>#</Th>
+              <Th>TITLE</Th>
+              <Th>
+                <FontAwesomeIcon icon={faUserSecret} />
+              </Th>
+            </Tr>
           </Thead>
           <Tbody>
             {boardList.map((board) => (
