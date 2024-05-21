@@ -7,8 +7,15 @@ import {
   FormControl,
   FormLabel,
   Input,
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
   Spinner,
   Textarea,
+  useDisclosure,
   useToast,
 } from "@chakra-ui/react";
 
@@ -16,7 +23,9 @@ export function BoardView() {
   const { id } = useParams();
   const [board, setBoard] = useState(null);
   const toast = useToast();
+  const { isOpen, onClose, onOpen } = useDisclosure();
   const navigate = useNavigate();
+
   useEffect(() => {
     axios
       .get(`/api/board/${id}`)
@@ -49,25 +58,39 @@ export function BoardView() {
           <FormLabel>제목</FormLabel>
           <Input value={board.title} readOnly />
         </FormControl>
-        <FormControl>
-          <FormLabel>본문</FormLabel>
-          <Textarea value={board.content} readOnly />
-        </FormControl>
-        <FormControl>
-          <FormLabel>작성자</FormLabel>
-          <Input value={board.writer} readOnly />
-        </FormControl>
-        <Box>
-          <FormControl>작성일시</FormControl>
-          <Input type={"datetime-local"} value={board.inserted} readOnly />
-        </Box>
-        <Box>
-          <Button colorScheme={"purple"}>수정</Button>
-          <Button colorScheme={"red"} onClick={handleClickRemove}>
-            삭제
-          </Button>
-        </Box>
       </Box>
+      <FormControl>
+        <FormLabel>본문</FormLabel>
+        <Textarea value={board.content} readOnly />
+      </FormControl>
+      <FormControl>
+        <FormLabel>작성자</FormLabel>
+        <Input value={board.writer} readOnly />
+      </FormControl>
+      <Box>
+        <FormControl>작성일시</FormControl>
+        <Input type={"datetime-local"} value={board.inserted} readOnly />
+      </Box>
+      <Box>
+        <Button colorScheme={"purple"}>수정</Button>
+        <Button colorScheme={"red"} onClick={onOpen}>
+          삭제
+        </Button>
+      </Box>
+
+      <Modal isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader />
+          <ModalBody>삭제하시겠습니까?</ModalBody>
+          <ModalFooter>
+            <Button onClick={onClose}>취소</Button>
+            <Button colorScheme={"red"} onClick={handleClickRemove}>
+              확인
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
     </Box>
   );
 }
