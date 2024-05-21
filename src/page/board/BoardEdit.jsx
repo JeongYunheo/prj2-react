@@ -62,6 +62,7 @@ export function BoardEdit() {
   return (
     <Box>
       <Box>{board.id}번 게시물 수정</Box>
+
       <Box>
         <Box>
           <FormControl>
