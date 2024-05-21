@@ -2,8 +2,9 @@ import React from "react";
 import { ChakraProvider } from "@chakra-ui/react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { Home } from "./page/Home.jsx";
-import { BoardWriter } from "./page/BoardWriter.jsx";
-import { BoardList } from "./page/BoardList.jsx";
+import { BoardWriter } from "./page/board/BoardWriter.jsx";
+import { BoardList } from "./page/board/BoardList.jsx";
+import { BoardView } from "./page/board/BoardView.jsx";
 
 const router = createBrowserRouter([
   {
@@ -15,6 +16,7 @@ const router = createBrowserRouter([
         element: <BoardList />,
       },
       { path: "write", element: <BoardWriter /> },
+      { path: "board/:id", element: <BoardView /> },
     ],
   },
 ]);
