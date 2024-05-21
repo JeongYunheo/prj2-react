@@ -1,14 +1,15 @@
 import { Box, Table, Tbody, Td, Th, Thead, Tr } from "@chakra-ui/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUserSecret } from "@fortawesome/free-solid-svg-icons";
+import axios from "axios";
 
 export function BoardList() {
   const [boardList, setBoardList] = useState([]);
 
-  // [{id=5, title:"제목 1", writer: "누구1"}
-  // {id=5, title:"제목 1", writer: "누구1"}
-  // {id=5, title:"제목 1", writer: "누구1"}]
+  useEffect(() => {
+    axios.get("/api/board/list").then((res) => setBoardList(res.data));
+  }, []);
 
   return (
     <Box>
