@@ -44,6 +44,7 @@ export function MemberList() {
           <Tbody>
             {memberList.map((member) => (
               <Tr
+                cursor={"pointer"}
                 key={member.id}
                 _hover={{ bgColor: "gray.200" }}
                 onClick={() => navigate(`/member/${member.id}`)}
@@ -51,7 +52,7 @@ export function MemberList() {
                 <Td>{member.id}</Td>
                 <Td>{member.email}</Td>
                 <Td>{member.nickName}</Td>
-                <Td>{member.inserted}</Td>
+                <Td>{member.signupDateTime}</Td>
               </Tr>
             ))}
           </Tbody>

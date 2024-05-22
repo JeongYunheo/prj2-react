@@ -15,10 +15,14 @@ export function MemberView() {
             <FormLabel>이메일</FormLabel>
             <Input value={member.email} readOnly />
           </FormControl>
+        </Box>
+        <Box>
           <FormControl>
             <FormLabel>닉네임</FormLabel>
             <Input value={member.nickName} readOnly />
           </FormControl>
+        </Box>
+        <Box>
           <FormControl>
             <FormLabel>가입일자</FormLabel>
             <Input value={member.inserted} readOnly />
