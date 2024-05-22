@@ -143,7 +143,7 @@ export function MemberSignup() {
               <Input
                 type={"email"}
                 onChange={(e) => {
-                  setEmail(e.target.value);
+                  setEmail(e.target.value.trim());
                   setIsCheckedEmail(false);
                   setIsValidEmail(!e.target.validity.typeMismatch);
                 }}
@@ -188,14 +188,15 @@ export function MemberSignup() {
             <FormLabel>닉네임</FormLabel>
             <InputGroup>
               <Input
+                value={nickName}
                 onChange={(e) => {
-                  setNickName(e.target.value);
+                  setNickName(e.target.value.trim());
                   setIsCheckedNickName(false);
                 }}
               />
               <InputRightElement w={"75px"} mr={1}>
                 <Button
-                  isDisabled={nickName.trim().length === 0}
+                  isDisabled={nickName.trim().length == 0}
                   size={"sm"}
                   onClick={handleClickNickName}
                 >
