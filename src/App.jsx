@@ -1,11 +1,12 @@
 import React from "react";
 import { ChakraProvider } from "@chakra-ui/react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { Home } from "./page/Home.jsx";
+import { Home } from "./Home.jsx";
 import { BoardWriter } from "./page/board/BoardWriter.jsx";
 import { BoardList } from "./page/board/BoardList.jsx";
 import { BoardView } from "./page/board/BoardView.jsx";
 import { BoardEdit } from "./page/board/BoardEdit.jsx";
+import { MemberSignup } from "./page/member/MemberSignup.jsx";
 
 const router = createBrowserRouter([
   {
@@ -19,6 +20,7 @@ const router = createBrowserRouter([
       { path: "write", element: <BoardWriter /> },
       { path: "board/:id", element: <BoardView /> },
       { path: "edit/:id", element: <BoardEdit /> },
+      { path: "signup", element: <MemberSignup /> },
     ],
   },
 ]);
