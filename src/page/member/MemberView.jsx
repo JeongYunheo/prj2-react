@@ -21,15 +21,13 @@ import { useNavigate, useParams } from "react-router-dom";
 export function MemberView() {
   const [member, setMember] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
-  const { isOpen, onClose, onOpen } = useDisclosure();
-
+  const [password, setPassword] = useState("");
   const { id } = useParams();
-
   const toast = useToast();
   const navigate = useNavigate();
+  const { isOpen, onClose, onOpen } = useDisclosure();
 
   useEffect(() => {
-    setIsLoading(true);
     axios
       .get(`/api/member/${id}`)
       .then((res) => setMember(res.data))
@@ -46,8 +44,10 @@ export function MemberView() {
   }, []);
 
   function handleClickRemove() {
+    setIsLoading(true);
+
     axios
-      .delete(`/api/member/${id}`)
+      .delete(`/api/member/${id}`, { data: { id, password } })
       .then(() => {
         toast({
           status: "success",
@@ -65,10 +65,12 @@ export function MemberView() {
       })
       .finally(() => {
         setIsLoading(false);
+        setPassword("");
+        onClose();
       });
   }
 
-  if (member == null) {
+  if (member === null) {
     return <Spinner />;
   }
 
@@ -85,27 +87,33 @@ export function MemberView() {
         <Box>
           <FormControl>
             <FormLabel>닉네임</FormLabel>
-            <Input value={member.nickName} readOnly />
+            <Input value={member.nickName} isReadOnly />
           </FormControl>
         </Box>
         <Box>
           <FormControl>
             <FormLabel>작성일</FormLabel>
-            <Input value={member.inserted} readOnly />
+            <Input value={member.inserted} isReadOnly />
           </FormControl>
         </Box>
+        <Box>
+          <Button colorScheme={"green"}>수정</Button>
+          <Button colorScheme={"red"} onClick={onOpen}>
+            탈퇴
+          </Button>
+        </Box>
       </Box>
-      <Box>
-        <Button colorScheme={"green"}>수정</Button>
-        <Button colorScheme={"red"} onClick={onOpen}>
-          탈퇴
-        </Button>
-      </Box>
+
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader></ModalHeader>
-          <ModalBody>탈퇴하시겠습니까?</ModalBody>
+          <ModalHeader>탈퇴확인</ModalHeader>
+          <ModalBody>
+            <FormControl>
+              <FormLabel>암호</FormLabel>
+              <Input onChange={(e) => setPassword(e.target.value)} />
+            </FormControl>
+          </ModalBody>
           <ModalFooter>
             <Button onClick={onClose}>취소</Button>
             <Button
