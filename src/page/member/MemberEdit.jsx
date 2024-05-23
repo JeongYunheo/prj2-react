@@ -5,6 +5,12 @@ import {
   FormHelperText,
   FormLabel,
   Input,
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
   useDisclosure,
   useToast,
 } from "@chakra-ui/react";
@@ -14,6 +20,7 @@ import { useNavigate, useParams } from "react-router-dom";
 
 export function MemberEdit() {
   const [member, setMember] = useState("");
+  const [oldPassword, setOldPassword] = useState("");
   const { id } = useParams();
   const navigate = useNavigate();
   const toast = useToast();
@@ -37,7 +44,7 @@ export function MemberEdit() {
   }, []);
 
   function handleClickSave() {
-    axios.put("/api/member/modify", member);
+    axios.put("/api/member/modify", { ...member, oldPassword: oldPassword });
   }
 
   return (
@@ -73,11 +80,29 @@ export function MemberEdit() {
           />
         </Box>
         <Box>
-          <Button onClick={handleClickSave} colorScheme={"blue"}>
+          <Button onClick={onOpen} colorScheme={"blue"}>
             저장
           </Button>
         </Box>
       </Box>
+      <Modal isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>기존 암호 확인</ModalHeader>
+          <ModalBody>
+            <FormControl>
+              <FormLabel>기존 암호</FormLabel>
+              <Input onChange={(e) => setOldPassword(e.target.value)} />
+            </FormControl>
+          </ModalBody>
+          <ModalFooter>
+            <Button onClick={onClose}>취소</Button>
+            <Button colorScheme={"blue"} onClick={handleClickSave}>
+              확인
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
     </Box>
   );
 }
