@@ -78,6 +78,10 @@ export function MemberEdit() {
     isDisableSaveButton = true;
   }
 
+  if (!isCheckedNickName) {
+    isDisableSaveButton = true;
+  }
+
   function handleClickNickName() {
     axios
       .get(`/api/member/check?nickName=${member.nickName}`)
@@ -139,16 +143,18 @@ export function MemberEdit() {
           <FormControl>별명</FormControl>
           <InputGroup>
             <Input
-              onChange={(e) =>
-                setMember({ ...member, nickName: e.target.value.trim() })
-              }
+              onChange={(e) => {
+                const newNickName = e.target.value.trim();
+                setMember({ ...member, nickName: newNickName });
+                setIsCheckedNickName(newNickName === oldNickName);
+              }}
               value={member.nickName}
             />
             <InputRightElement w={"75px"} mr={1}>
               <Button
                 size={"sm"}
                 onClick={handleClickNickName}
-                disabled={isDisableNickNameCheckButton}
+                isDisabled={isDisableNickNameCheckButton}
               >
                 중복 확인
               </Button>
