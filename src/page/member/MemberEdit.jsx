@@ -5,12 +5,15 @@ import {
   FormHelperText,
   FormLabel,
   Input,
+  InputGroup,
+  InputRightElement,
   Modal,
   ModalBody,
   ModalContent,
   ModalFooter,
   ModalHeader,
   ModalOverlay,
+  Spinner,
   useDisclosure,
   useToast,
 } from "@chakra-ui/react";
@@ -19,8 +22,11 @@ import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 
 export function MemberEdit() {
-  const [member, setMember] = useState("");
+  const [member, setMember] = useState(null);
   const [oldPassword, setOldPassword] = useState("");
+  const [passwordCheck, setPasswordCheck] = useState("");
+  const [oldNickName, setOldNickName] = useState("");
+  const [isCheckedNickName, setIsCheckedNickName] = useState(true);
   const { id } = useParams();
   const navigate = useNavigate();
   const toast = useToast();
@@ -32,6 +38,7 @@ export function MemberEdit() {
       .then((res) => {
         const member1 = res.data;
         setMember({ ...member1, password: "" });
+        setOldNickName(member1.nickName);
       })
       .catch(() => {
         toast({
@@ -44,7 +51,55 @@ export function MemberEdit() {
   }, []);
 
   function handleClickSave() {
-    axios.put("/api/member/modify", { ...member, oldPassword: oldPassword });
+    axios
+      .put("/api/member/modify", { ...member, oldPassword })
+      .then((res) => {})
+      .catch(() => {})
+      .finally();
+  }
+
+  if (member === null) {
+    return <Spinner />;
+  }
+
+  let isDisableNickNameCheckButton = false;
+  if (member.nickName === oldNickName) {
+    isDisableNickNameCheckButton = true;
+  }
+  if (member.nickName.length == 0) {
+    isDisableNickNameCheckButton = true;
+  }
+
+  let isDisableSaveButton = false;
+  if (member.password !== passwordCheck) {
+    isDisableSaveButton = true;
+  }
+  if (member.nickName.trim().length === 0) {
+    isDisableSaveButton = true;
+  }
+
+  function handleClickNickName() {
+    axios
+      .get(`/api/member/check?nickName=${member.nickName}`)
+      .then((res) => {
+        toast({
+          status: "warning",
+          description: "사용할 수 없는 별명입니다",
+          position: "top",
+        });
+      }) // 이미 있는 이메일
+      .catch((err) => {
+        if (err.response.status === 404) {
+          // 사용할 수 있는 이메일
+          toast({
+            status: "info",
+            description: "사용할 수 있는 별명입니다",
+            position: "top",
+          });
+          setIsCheckedNickName(true);
+        }
+      })
+      .finally();
   }
 
   return (
@@ -60,7 +115,12 @@ export function MemberEdit() {
         <Box>
           <FormControl>
             <FormLabel>패스워드</FormLabel>
-            <Input placeholder={"암호를 변경하려면 입력하세요"} />
+            <Input
+              onChange={(e) =>
+                setMember({ ...member, password: e.target.value })
+              }
+              placeholder={"암호를 변경하려면 입력하세요"}
+            />
             <FormHelperText>
               입력하지 않으면 기존 암호를 변경하지 않습니다
             </FormHelperText>
@@ -69,22 +129,43 @@ export function MemberEdit() {
         <Box>
           <FormControl>
             <FormLabel>패스워드 확인</FormLabel>
-            <Input />
+            <Input onChange={(e) => setPasswordCheck(e.target.value)} />
+            {member.password === passwordCheck || (
+              <FormHelperText>암호가 일치하지 않습니다</FormHelperText>
+            )}
           </FormControl>
         </Box>
         <Box>
           <FormControl>별명</FormControl>
-          <Input
-            onChange={(e) => setMember({ ...member, nickName: e.target.value })}
-            value={member.nickName}
-          />
+          <InputGroup>
+            <Input
+              onChange={(e) =>
+                setMember({ ...member, nickName: e.target.value.trim() })
+              }
+              value={member.nickName}
+            />
+            <InputRightElement w={"75px"} mr={1}>
+              <Button
+                size={"sm"}
+                onClick={handleClickNickName}
+                disabled={isDisableNickNameCheckButton}
+              >
+                중복 확인
+              </Button>
+            </InputRightElement>
+          </InputGroup>
         </Box>
         <Box>
-          <Button onClick={onOpen} colorScheme={"blue"}>
+          <Button
+            isDisabled={isDisableSaveButton}
+            onClick={onOpen}
+            colorScheme={"blue"}
+          >
             저장
           </Button>
         </Box>
       </Box>
+
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
