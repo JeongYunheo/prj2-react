@@ -97,7 +97,12 @@ export function MemberView() {
           </FormControl>
         </Box>
         <Box>
-          <Button colorScheme={"green"}>수정</Button>
+          <Button
+            colorScheme={"green"}
+            onClick={() => navigate(`/member/edit/${member.id}`)}
+          >
+            수정
+          </Button>
           <Button colorScheme={"red"} onClick={onOpen}>
             탈퇴
           </Button>
