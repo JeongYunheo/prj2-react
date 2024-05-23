@@ -78,6 +78,10 @@ export function MemberEdit() {
     isDisableSaveButton = true;
   }
 
+  if (isCheckedNickName) {
+    isDisableNickNameCheckButton = true;
+  }
+
   if (!isCheckedNickName) {
     isDisableSaveButton = true;
   }
