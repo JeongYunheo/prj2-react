@@ -20,10 +20,10 @@ import { useNavigate, useParams } from "react-router-dom";
 import { LoginContext } from "../../component/LoginProvider.jsx";
 
 export function MemberView() {
+  const { id } = useParams();
   const [member, setMember] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [password, setPassword] = useState("");
-  const { id } = useParams();
   const toast = useToast();
   const account = useContext(LoginContext);
   const navigate = useNavigate();
