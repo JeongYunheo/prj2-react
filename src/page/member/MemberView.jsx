@@ -14,9 +14,10 @@ import {
   useDisclosure,
   useToast,
 } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
+import { LoginContext } from "../../component/LoginProvider.jsx";
 
 export function MemberView() {
   const [member, setMember] = useState(null);
@@ -24,6 +25,7 @@ export function MemberView() {
   const [password, setPassword] = useState("");
   const { id } = useParams();
   const toast = useToast();
+  const account = useContext(LoginContext);
   const navigate = useNavigate();
   const { isOpen, onClose, onOpen } = useDisclosure();
 
@@ -47,7 +49,12 @@ export function MemberView() {
     setIsLoading(true);
 
     axios
-      .delete(`/api/member/${id}`, { data: { id, password } })
+      .delete(`/api/member/${id}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+        data: { id, password },
+      })
       .then(() => {
         toast({
           status: "success",
@@ -55,6 +62,7 @@ export function MemberView() {
           position: "top",
         });
         navigate("/");
+        account.logout();
       })
       .catch(() => {
         toast({
