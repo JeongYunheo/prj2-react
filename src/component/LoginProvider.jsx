@@ -26,6 +26,7 @@ export function LoginProvider({ children }) {
     return id == param;
   }
 
+  //
   // login
   function login(token) {
     localStorage.setItem("token", token);
