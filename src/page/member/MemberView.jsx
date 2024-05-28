@@ -31,7 +31,11 @@ export function MemberView() {
 
   useEffect(() => {
     axios
-      .get(`/api/member/${id}`)
+      .get(`/api/member/${id}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      })
       .then((res) => setMember(res.data))
       .catch((err) => {
         if (err.response.status === 404) {
@@ -41,6 +45,13 @@ export function MemberView() {
             position: "top",
           });
           navigate("/");
+        } else if (err.response.status === 403) {
+          toast({
+            status: "error",
+            description: "권한이 없습니다.",
+            position: "top",
+          });
+          navigate(-1);
         }
       });
   }, []);
@@ -61,8 +72,8 @@ export function MemberView() {
           description: "회원 탈퇴되었습니다",
           position: "top",
         });
-        navigate("/");
         account.logout();
+        navigate("/");
       })
       .catch(() => {
         toast({
@@ -104,17 +115,19 @@ export function MemberView() {
             <Input value={member.inserted} isReadOnly />
           </FormControl>
         </Box>
-        <Box>
-          <Button
-            colorScheme={"green"}
-            onClick={() => navigate(`/member/edit/${member.id}`)}
-          >
-            수정
-          </Button>
-          <Button colorScheme={"red"} onClick={onOpen}>
-            탈퇴
-          </Button>
-        </Box>
+        {account.hasAccess(member.id) && (
+          <Box>
+            <Button
+              onClick={() => navigate(`/member/edit/${member.id}`)}
+              colorScheme={"purple"}
+            >
+              수정
+            </Button>
+            <Button colorScheme={"red"} onClick={onOpen}>
+              탈퇴
+            </Button>
+          </Box>
+        )}
       </Box>
 
       <Modal isOpen={isOpen} onClose={onClose}>
