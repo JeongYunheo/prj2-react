@@ -24,11 +24,12 @@ export function BoardWriter() {
   function handleSaveClick() {
     setLoading(true);
     axios
-      .post(
+      .postForm(
         "/api/board/add",
         {
           title,
           content,
+          files,
         },
         {
           headers: {
@@ -93,7 +94,7 @@ export function BoardWriter() {
           <Input
             multiple
             type={"file"}
-            accept={"image/*"}
+            accept="image/*"
             onChange={(e) => {
               setFiles(e.target.files);
             }}
