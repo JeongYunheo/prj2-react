@@ -39,11 +39,20 @@ export function BoardEdit() {
 
   function handleClickSave() {
     axios
-      .put("/api/board/edit", board, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
+      .putForm(
+        "/api/board/edit",
+        {
+          id: board.id,
+          title: board.title,
+          content: board.content,
+          removeFileList,
         },
-      })
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        },
+      )
       .then(() => {
         toast({
           status: "success",
@@ -109,7 +118,7 @@ export function BoardEdit() {
                   <FontAwesomeIcon icon={faTrashCan} />
                   <Switch
                     onChange={(e) =>
-                      handleRemoveSwitchChange(file.name, e.target.value)
+                      handleRemoveSwitchChange(file.name, e.target.checked)
                     }
                   />
                   <Text>{file.name}</Text>
