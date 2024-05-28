@@ -40,6 +40,7 @@ export function BoardList() {
       setBoardList(res.data.boardList);
       setPageInfo(res.data.pageInfo);
     });
+
     setSearchType("all");
     setSearchKeyword("");
 

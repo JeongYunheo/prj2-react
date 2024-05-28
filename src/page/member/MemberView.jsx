@@ -20,12 +20,12 @@ import { useNavigate, useParams } from "react-router-dom";
 import { LoginContext } from "../../component/LoginProvider.jsx";
 
 export function MemberView() {
-  const { id } = useParams();
   const [member, setMember] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [password, setPassword] = useState("");
-  const toast = useToast();
   const account = useContext(LoginContext);
+  const { id } = useParams();
+  const toast = useToast();
   const navigate = useNavigate();
   const { isOpen, onClose, onOpen } = useDisclosure();
 
@@ -112,7 +112,7 @@ export function MemberView() {
         <Box>
           <FormControl>
             <FormLabel>작성일</FormLabel>
-            <Input value={member.inserted} isReadOnly />
+            <Input value={member.inserted} type={"datetime-local"} isReadOnly />
           </FormControl>
         </Box>
         {account.hasAccess(member.id) && (
