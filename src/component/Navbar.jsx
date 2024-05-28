@@ -3,7 +3,7 @@ import { Box, Flex, Spacer } from "@chakra-ui/react";
 import React, { useContext } from "react";
 import { LoginContext } from "./LoginProvider.jsx";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPaw } from "@fortawesome/free-solid-svg-icons";
+import { faUser } from "@fortawesome/free-solid-svg-icons";
 
 export function Navbar() {
   const navigate = useNavigate();
@@ -33,8 +33,14 @@ export function Navbar() {
       )}
       <Spacer />
       {account.isLoggedIn() && (
-        <Box>
-          <FontAwesomeIcon icon={faPaw} />
+        <Box
+          onClick={() => navigate(`/member/${account.id}`)}
+          cursor={"pointer"}
+          _hover={{
+            bgColor: "gray.200",
+          }}
+        >
+          <FontAwesomeIcon icon={faUser} />
           {account.nickName}
         </Box>
       )}

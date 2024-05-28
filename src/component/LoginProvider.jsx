@@ -38,7 +38,7 @@ export function LoginProvider({ children }) {
     setExpired(payload.exp);
     setId(payload.sub);
     setNickName(payload.nickName);
-    setAuthority(payload.scope.split(" "));
+    setAuthority(payload.scope.split(" ")); // "admin manager user"
   }
 
   // logout

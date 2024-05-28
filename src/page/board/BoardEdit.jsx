@@ -42,21 +42,13 @@ export function BoardEdit() {
 
   function handleClickSave() {
     axios
-      .putForm(
-        "/api/board/edit",
-        {
-          id: board.id,
-          title: board.title,
-          content: board.content,
-          removeFileList,
-          addFileList,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        },
-      )
+      .putForm("/api/board/edit", {
+        id: board.id,
+        title: board.title,
+        content: board.content,
+        removeFileList,
+        addFileList,
+      })
       .then(() => {
         toast({
           status: "success",

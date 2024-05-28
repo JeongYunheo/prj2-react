@@ -82,23 +82,27 @@ export function MemberEdit() {
   }
 
   let isDisableNickNameCheckButton = false;
+
   if (member.nickName === oldNickName) {
     isDisableNickNameCheckButton = true;
   }
+
   if (member.nickName.length == 0) {
     isDisableNickNameCheckButton = true;
   }
 
+  if (isCheckedNickName) {
+    isDisableNickNameCheckButton = true;
+  }
+
   let isDisableSaveButton = false;
+
   if (member.password !== passwordCheck) {
     isDisableSaveButton = true;
   }
+
   if (member.nickName.trim().length === 0) {
     isDisableSaveButton = true;
-  }
-
-  if (isCheckedNickName) {
-    isDisableNickNameCheckButton = true;
   }
 
   if (!isCheckedNickName) {
