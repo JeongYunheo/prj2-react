@@ -34,6 +34,7 @@ export function BoardView() {
     like: false,
     count: 0,
   });
+  const [isLikeProcess, setIsLikeProcess] = useState(false);
   const account = useContext(LoginContext);
   const toast = useToast();
   const { isOpen, onClose, onOpen } = useDisclosure();
@@ -87,13 +88,16 @@ export function BoardView() {
   }
 
   function handleClickLike() {
+    setIsLikeProcess(true);
     axios
       .put(`/api/board/like`, { boardId: board.id })
       .then((res) => {
         setLike(res.data);
       })
       .catch(() => {})
-      .finally(() => {});
+      .finally(() => {
+        setIsLikeProcess(false);
+      });
   }
 
   return (
@@ -101,13 +105,20 @@ export function BoardView() {
       <Flex>
         <Heading>{board.id}번 게시물</Heading>
         <Spacer />
-        <Flex>
-          <Box onClick={handleClickLike} cursor={"pointer"} fontSize={"3xl"}>
-            {like.like && <FontAwesomeIcon icon={fullHeart} />}
-            {like.like || <FontAwesomeIcon icon={emptyHeart} />}
+        {isLikeProcess || (
+          <Flex>
+            <Box onClick={handleClickLike} cursor={"pointer"} fontSize={"3xl"}>
+              {like.like && <FontAwesomeIcon icon={fullHeart} />}
+              {like.like || <FontAwesomeIcon icon={emptyHeart} />}
+            </Box>
+            <Box fontSize={"3xl"}>{like.count}</Box>
+          </Flex>
+        )}
+        {isLikeProcess && (
+          <Box pr={3}>
+            <Spinner />
           </Box>
-          <Box fontSize={"3xl"}>{like.count}</Box>
-        </Flex>
+        )}
       </Flex>
       <Box>
         <FormControl>
