@@ -2,10 +2,11 @@ import { Box, Button, Textarea } from "@chakra-ui/react";
 import { useState } from "react";
 import axios from "axios";
 
-export function CommentWrite({ boardId }) {
+export function CommentWrite({ boardId, isSending, setIsSending }) {
   const [comment, setComment] = useState("");
 
   function handleCommentSubmitClick() {
+    setIsSending(true);
     axios
       .post("/api/comment/add", {
         boardId,
@@ -13,7 +14,9 @@ export function CommentWrite({ boardId }) {
       })
       .then((res) => {})
       .catch(() => {})
-      .finally(() => {});
+      .finally(() => {
+        setIsSending(false);
+      });
   }
 
   return (
@@ -23,7 +26,11 @@ export function CommentWrite({ boardId }) {
         value={comment}
         onChange={(e) => setComment(e.target.value)}
       />
-      <Button onClick={handleCommentSubmitClick} colorScheme={"blue"}>
+      <Button
+        isLoading={isSending}
+        onClick={handleCommentSubmitClick}
+        colorScheme={"blue"}
+      >
         전송
       </Button>
     </Box>
