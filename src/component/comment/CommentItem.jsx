@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 export function CommentItem({ comment }) {
   function handleRemoveClick() {
     axios
-      .delete(`/api/comments/remove`, {
+      .delete(`/api/comment/remove`, {
         data: { id: comment.id },
       })
       .then((res) => {})
@@ -26,10 +26,7 @@ export function CommentItem({ comment }) {
           <Box>{comment.comment}</Box>
           <Spacer />
           <Box>
-            <Button
-              colorScheme={"red"}
-              onClick={() => handleRemoveClick(comment.id)}
-            >
+            <Button colorScheme={"red"} onClick={handleRemoveClick}>
               <FontAwesomeIcon icon={faTrash} />
             </Button>
           </Box>
