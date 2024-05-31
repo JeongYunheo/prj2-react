@@ -1,9 +1,13 @@
 import { useNavigate } from "react-router-dom";
-import { Center, Flex, Spacer } from "@chakra-ui/react";
+import { Center, Flex, Hide, Show, Spacer } from "@chakra-ui/react";
 import React, { useContext } from "react";
 import { LoginContext } from "./LoginProvider.jsx";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUser } from "@fortawesome/free-solid-svg-icons";
+import {
+  faHouseUser,
+  faPenToSquare,
+  faUser,
+} from "@fortawesome/free-solid-svg-icons";
 
 export function Navbar() {
   const navigate = useNavigate();
@@ -29,7 +33,10 @@ export function Navbar() {
         fontSize={20}
         fontWeight="bold"
       >
-        Home
+        <Show below={"lg"}>
+          <FontAwesomeIcon icon={faHouseUser} />
+        </Show>
+        <Hide below={"lg"}>Home</Hide>
       </Center>
       {account.isLoggedIn() && (
         <Center
@@ -42,7 +49,10 @@ export function Navbar() {
           fontSize={20}
           fontWeight="bold"
         >
-          글쓰기
+          <Show below={"lg"}>
+            <FontAwesomeIcon icon={faPenToSquare} />
+          </Show>
+          <Hide below={"lg"}>글쓰기</Hide>
         </Center>
       )}
       <Spacer />
