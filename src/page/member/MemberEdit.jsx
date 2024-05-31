@@ -196,6 +196,7 @@ export function MemberEdit() {
             </Box>
             <Box>
               <Button
+                mt={3}
                 isDisabled={isDisableSaveButton}
                 onClick={onOpen}
                 colorScheme={"blue"}

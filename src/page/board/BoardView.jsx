@@ -187,7 +187,7 @@ export function BoardView() {
           >
             수정
           </Button>
-          <Button colorScheme={"red"} onClick={onOpen}>
+          <Button ml={2} colorScheme={"red"} onClick={onOpen}>
             삭제
           </Button>
         </Flex>

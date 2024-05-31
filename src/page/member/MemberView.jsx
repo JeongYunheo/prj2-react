@@ -133,7 +133,7 @@ export function MemberView() {
                 >
                   수정
                 </Button>
-                <Button colorScheme={"red"} onClick={onOpen}>
+                <Button ml={2} colorScheme={"red"} onClick={onOpen}>
                   탈퇴
                 </Button>
               </Box>
