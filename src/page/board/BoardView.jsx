@@ -111,35 +111,42 @@ export function BoardView() {
   }
 
   return (
-    <Box mb={10}>
-      <Flex>
-        <Heading>{board.id}번 게시물</Heading>
-        <Spacer />
-        {isLikeProcess || (
-          <Flex>
-            <Tooltip
-              isDisabled={account.isLoggedIn()}
-              hasArrow
-              label={"로그인 해주세요."}
-            >
-              <Box
-                onClick={handleClickLike}
-                cursor={"pointer"}
-                fontSize={"3xl"}
+    <Box>
+      <Box mb={10}>
+        <Flex>
+          <Heading>{board.id}번 게시물</Heading>
+          <Spacer />
+          {isLikeProcess || (
+            <Flex>
+              <Tooltip
+                isDisabled={account.isLoggedIn()}
+                hasArrow
+                label={"로그인 해주세요."}
               >
-                {like.like && <FontAwesomeIcon icon={fullHeart} />}
-                {like.like || <FontAwesomeIcon icon={emptyHeart} />}
-              </Box>
-            </Tooltip>
-            {like.count > 0 && <Box fontSize={"3xl"}>{like.count}</Box>}
-          </Flex>
-        )}
-        {isLikeProcess && (
-          <Box pr={3}>
-            <Spinner />
-          </Box>
-        )}
-      </Flex>
+                <Box
+                  onClick={handleClickLike}
+                  cursor={"pointer"}
+                  fontSize={"3xl"}
+                >
+                  {like.like && <FontAwesomeIcon icon={fullHeart} />}
+                  {like.like || <FontAwesomeIcon icon={emptyHeart} />}
+                </Box>
+              </Tooltip>
+              {like.count > 0 && (
+                <Box mx={3} fontSize={"3xl"}>
+                  {like.count}
+                </Box>
+              )}
+            </Flex>
+          )}
+          {isLikeProcess && (
+            <Box pr={3}>
+              <Spinner />
+            </Box>
+          )}
+        </Flex>
+      </Box>
+
       <Box mt={3}>
         <FormControl>
           <FormLabel>제목</FormLabel>
@@ -173,7 +180,7 @@ export function BoardView() {
         <Input type={"datetime-local"} value={board.inserted} readOnly />
       </Box>
       {account.hasAccess(board.memberId) && (
-        <Box mt={5}>
+        <Flex mt={5}>
           <Button
             colorScheme={"purple"}
             onClick={() => navigate(`/edit/${board.id}`)}
@@ -183,7 +190,7 @@ export function BoardView() {
           <Button colorScheme={"red"} onClick={onOpen}>
             삭제
           </Button>
-        </Box>
+        </Flex>
       )}
 
       <Box mb={20}></Box>
