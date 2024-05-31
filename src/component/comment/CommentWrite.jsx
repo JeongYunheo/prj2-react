@@ -3,13 +3,13 @@ import { useContext, useState } from "react";
 import axios from "axios";
 import { LoginContext } from "../LoginProvider.jsx";
 
-export function CommentWrite({ boardId, SetIsProcessing, isProcessing }) {
+export function CommentWrite({ boardId, setIsProcessing, isProcessing }) {
   const [comment, setComment] = useState("");
   const account = useContext(LoginContext);
   const toast = useToast();
 
   function handleCommentSubmitClick() {
-    SetIsProcessing(true);
+    setIsProcessing(true);
     axios
       .post("/api/comment/add", {
         boardId,
@@ -25,7 +25,7 @@ export function CommentWrite({ boardId, SetIsProcessing, isProcessing }) {
       })
       .catch(() => {})
       .finally(() => {
-        SetIsProcessing(false);
+        setIsProcessing(false);
       });
   }
 

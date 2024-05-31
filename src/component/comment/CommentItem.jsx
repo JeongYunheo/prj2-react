@@ -15,10 +15,15 @@ import {
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { LoginContext } from "../LoginProvider.jsx";
+import * as PropTypes from "prop-types";
+import { CommentEdit } from "./CommentEdit.jsx";
+
+CommentEdit.propTypes = { setIsEditing: PropTypes.func };
 
 export function CommentItem({ comment, isProcessing, setIsProcessing }) {
+  const [isEditing, setIsEditing] = useState(false);
   const { isOpen, onClose, onOpen } = useDisclosure();
   const account = useContext(LoginContext);
   const toast = useToast();
@@ -50,21 +55,37 @@ export function CommentItem({ comment, isProcessing, setIsProcessing }) {
           <Spacer />
           <Box>{comment.inserted}</Box>
         </Flex>
-        <Flex>
-          <Box>{comment.comment}</Box>
-          <Spacer />
-          {account.hasAccess(comment.mamberId) && (
-            <Box>
-              <Button
-                isLoading={isProcessing}
-                colorScheme={"red"}
-                onClick={onOpen}
-              >
-                <FontAwesomeIcon icon={faTrash} />
-              </Button>
-            </Box>
-          )}
-        </Flex>
+        {isEditing || (
+          <Flex>
+            <Box>{comment.comment}</Box>
+            <Spacer />
+            {account.hasAccess(comment.mamberId) && (
+              <Box>
+                <Button
+                  colorScheme={"purple"}
+                  onClick={() => setIsEditing(true)}
+                >
+                  수정
+                </Button>
+                <Button
+                  isLoading={isProcessing}
+                  colorScheme={"red"}
+                  onClick={onOpen}
+                >
+                  <FontAwesomeIcon icon={faTrash} />
+                </Button>
+              </Box>
+            )}
+          </Flex>
+        )}
+        {isEditing && (
+          <CommentEdit
+            comment={comment}
+            setIsEditing={setIsEditing}
+            setIsProcessing={setIsProcessing}
+            isProcessing={isProcessing}
+          />
+        )}
         {account.hasAccess(comment.mamberId) && (
           <Modal isOpen={isOpen} onClose={onClose}>
             <ModalOverlay />
@@ -73,6 +94,7 @@ export function CommentItem({ comment, isProcessing, setIsProcessing }) {
               <ModalBody>댓글을 삭제하시겠습니까?</ModalBody>
               <ModalFooter>
                 <Button onClick={onClose}>취소</Button>
+
                 <Button
                   isLoading={isProcessing}
                   colorScheme={"red"}
