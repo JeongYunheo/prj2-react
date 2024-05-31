@@ -9,11 +9,16 @@ import {
   ModalHeader,
   ModalOverlay,
   Spacer,
+  Stack,
   Text,
   useDisclosure,
   useToast,
 } from "@chakra-ui/react";
-import { faTrash } from "@fortawesome/free-solid-svg-icons";
+import {
+  faCalendarDay,
+  faTrash,
+  faUser,
+} from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useContext, useState } from "react";
@@ -48,22 +53,29 @@ export function CommentItem({ comment, isProcessing, setIsProcessing }) {
   return (
     <Box>
       <Flex mb={3}>
-        <Box>
-          <Flex>
-            <Text fontWeight={600}>{comment.nickName}</Text>
-            <Spacer />
-            <Text>{comment.inserted}</Text>
-          </Flex>
-        </Box>
+        <Flex fontWeight={600}>
+          <Box mr={3}>
+            <FontAwesomeIcon icon={faUser} />
+          </Box>
+          <Text>{comment.nickName}</Text>
+        </Flex>
+        <Spacer />
+        <Flex gap={2}>
+          <Box>
+            <FontAwesomeIcon icon={faCalendarDay} />
+          </Box>
+          <Box>{comment.inserted}</Box>
+        </Flex>
       </Flex>
-      <Box>
-        {isEditing || (
-          <Flex>
-            <Box whiteSpace={900}>{comment.comment}</Box>
-            <Spacer />
-            {account.hasAccess(comment.memberId) && (
+      {isEditing || (
+        <Flex>
+          <Box whiteSpace={"pre"}>{comment.comment}</Box>
+          <Spacer />
+          {account.hasAccess(comment.memberId) && (
+            <Stack>
               <Box>
                 <Button
+                  variant={"outline"}
                   size={"sm"}
                   colorScheme={"purple"}
                   onClick={() => setIsEditing(true)}
@@ -71,7 +83,9 @@ export function CommentItem({ comment, isProcessing, setIsProcessing }) {
                   수정
                 </Button>
                 <Button
+                  variant={"outline"}
                   size={"sm"}
+                  ml={2}
                   isLoading={isProcessing}
                   colorScheme={"red"}
                   onClick={onOpen}
@@ -79,10 +93,10 @@ export function CommentItem({ comment, isProcessing, setIsProcessing }) {
                   <FontAwesomeIcon icon={faTrash} />
                 </Button>
               </Box>
-            )}
-          </Flex>
-        )}
-      </Box>
+            </Stack>
+          )}
+        </Flex>
+      )}
       {isEditing && (
         <CommentEdit
           comment={comment}

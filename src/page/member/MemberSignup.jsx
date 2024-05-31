@@ -136,7 +136,7 @@ export function MemberSignup() {
   }
   return (
     <Center>
-      <Box w={700}>
+      <Box w={500}>
         <Box mb={10}>
           <Heading>회원가입</Heading>
         </Box>
