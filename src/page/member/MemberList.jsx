@@ -1,5 +1,6 @@
 import {
   Box,
+  Heading,
   Spinner,
   Table,
   Tbody,
@@ -28,15 +29,17 @@ export function MemberList() {
 
   return (
     <Box>
-      <Box>회원목록</Box>
-      <Box>
+      <Box mb={10}>
+        <Heading>회원목록</Heading>
+      </Box>
+      <Box mb={10}>
         <Table>
           <Thead>
             <Tr>
-              <Th>#</Th>
+              <Th w={20}>#</Th>
               <Th>이메일</Th>
-              <Th>별명</Th>
-              <Th>
+              <Th w={"200px"}>별명</Th>
+              <Th w={96}>
                 <FontAwesomeIcon icon={faCalendarCheck} />
               </Th>
             </Tr>
