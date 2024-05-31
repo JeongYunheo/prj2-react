@@ -5,10 +5,15 @@ import {
   Badge,
   Box,
   Button,
+  Card,
+  CardBody,
+  CardFooter,
+  CardHeader,
   Flex,
   FormControl,
   FormHelperText,
   FormLabel,
+  Heading,
   Image,
   Input,
   Modal,
@@ -18,6 +23,7 @@ import {
   ModalHeader,
   ModalOverlay,
   Spinner,
+  Stack,
   Switch,
   Text,
   Textarea,
@@ -86,10 +92,12 @@ export function BoardEdit() {
       }
     }
     fileNameList.push(
-      <li>
-        {addFile.name}
-        {duplicate && <Badge colorScheme={"red"}>override</Badge>}
-      </li>,
+      <Flex>
+        <li>
+          {addFile.name}
+          {duplicate && <Badge colorScheme={"red"}>override</Badge>}
+        </li>
+      </Flex>,
     );
   }
 
@@ -103,8 +111,9 @@ export function BoardEdit() {
 
   return (
     <Box>
-      <Box>{board.id}번 게시물 수정</Box>
-
+      <Box>
+        <Heading>{board.id}번 게시물 수정</Heading>
+      </Box>
       <Box>
         <Box>
           <FormControl>
@@ -127,27 +136,38 @@ export function BoardEdit() {
         <Box>
           {board.fileList &&
             board.fileList.map((file) => (
-              <Box border={"2px solid black"} m={3} key={file.name}>
-                <Flex>
-                  <FontAwesomeIcon icon={faTrashCan} />
-                  <Switch
-                    onChange={(e) =>
-                      handleRemoveSwitchChange(file.name, e.target.checked)
-                    }
-                  />
-                  <Text>{file.name}</Text>
-                </Flex>
-                <Box>
-                  <Image
-                    sx={
-                      removeFileList.includes(file.name)
-                        ? { filter: "blur(8px)" }
-                        : {}
-                    }
-                    src={file.src}
-                  />
-                </Box>
-              </Box>
+              <Card m={3} key={file.name}>
+                <CardFooter>
+                  <Flex>
+                    <Box mr={3}>
+                      <FontAwesomeIcon icon={faTrashCan} />
+                    </Box>
+                    <Box mr={1}>
+                      <Switch
+                        onChange={(e) =>
+                          handleRemoveSwitchChange(file.name, e.target.checked)
+                        }
+                      />
+                    </Box>
+                    <Box>
+                      <Text>{file.name}</Text>
+                    </Box>
+                  </Flex>
+                </CardFooter>
+                <CardBody>
+                  <Box>
+                    <Image
+                      w={"100%"}
+                      sx={
+                        removeFileList.includes(file.name)
+                          ? { filter: "blur(8px)" }
+                          : {}
+                      }
+                      src={file.src}
+                    />
+                  </Box>
+                </CardBody>
+              </Card>
             ))}
         </Box>
         <Box>
@@ -164,9 +184,17 @@ export function BoardEdit() {
             <FormHelperText>총 용량은 10MB를 초과할 수 없습니다</FormHelperText>
           </FormControl>
         </Box>
-        <Box>
-          <ul>{fileNameList}</ul>
-        </Box>
+        {fileNameList.length > 0 && (
+          <Box>
+            <Card>
+              <CardHeader>선택된 파일 목록</CardHeader>
+              <CardBody>
+                <Stack>{fileNameList}</Stack>
+              </CardBody>
+            </Card>
+          </Box>
+        )}
+
         <Box>
           <FormControl>
             <FormLabel>작성자</FormLabel>
