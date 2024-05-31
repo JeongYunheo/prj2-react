@@ -76,7 +76,7 @@ export function BoardList() {
       <Box mb={10}>
         <Heading>게시물 목록</Heading>
       </Box>
-      <Box mb={10}>
+      <Box mt={10}>
         {boardList.length === 0 && <Center>조회 결과가 없습니다</Center>}
         {boardList.length > 0 && (
           <Table>
