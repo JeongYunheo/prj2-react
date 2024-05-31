@@ -17,10 +17,7 @@ import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useContext, useState } from "react";
 import { LoginContext } from "../LoginProvider.jsx";
-import * as PropTypes from "prop-types";
 import { CommentEdit } from "./CommentEdit.jsx";
-
-CommentEdit.propTypes = { setIsEditing: PropTypes.func };
 
 export function CommentItem({ comment, isProcessing, setIsProcessing }) {
   const [isEditing, setIsEditing] = useState(false);
@@ -59,7 +56,7 @@ export function CommentItem({ comment, isProcessing, setIsProcessing }) {
           <Flex>
             <Box>{comment.comment}</Box>
             <Spacer />
-            {account.hasAccess(comment.mamberId) && (
+            {account.hasAccess(comment.memberId) && (
               <Box>
                 <Button
                   colorScheme={"purple"}
@@ -86,7 +83,7 @@ export function CommentItem({ comment, isProcessing, setIsProcessing }) {
             isProcessing={isProcessing}
           />
         )}
-        {account.hasAccess(comment.mamberId) && (
+        {account.hasAccess(comment.memberId) && (
           <Modal isOpen={isOpen} onClose={onClose}>
             <ModalOverlay />
             <ModalContent>
@@ -94,7 +91,6 @@ export function CommentItem({ comment, isProcessing, setIsProcessing }) {
               <ModalBody>댓글을 삭제하시겠습니까?</ModalBody>
               <ModalFooter>
                 <Button onClick={onClose}>취소</Button>
-
                 <Button
                   isLoading={isProcessing}
                   colorScheme={"red"}

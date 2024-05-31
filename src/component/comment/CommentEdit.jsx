@@ -1,6 +1,8 @@
 import { Box, Button, Flex, Textarea } from "@chakra-ui/react";
 import { useState } from "react";
 import axios from "axios";
+import { faDeleteLeft, faPencil } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export function CommentEdit({
   comment,
@@ -11,10 +13,17 @@ export function CommentEdit({
   const [commentText, setCommentText] = useState(comment.comment);
 
   function handleCommentSubmit() {
-    axios.put("/api/comment/edit", {
-      id: comment.id,
-      comment: commentText,
-    });
+    setIsProcessing(true);
+    axios
+      .put("/api/comment/edit", {
+        id: comment.id,
+        comment: commentText,
+      })
+      .then(() => {})
+      .catch(() => {})
+      .finally(() => {});
+    setIsProcessing(false);
+    setIsEditing(false);
   }
 
   return (
@@ -29,16 +38,17 @@ export function CommentEdit({
         <Button
           variant={"outline"}
           colorScheme={"gray"}
-          onClick={() => setIsProcessing(false)}
+          onClick={() => setIsEditing(false)}
         >
-          취소
+          <FontAwesomeIcon icon={faDeleteLeft} />
         </Button>
         <Button
+          isLoading={isProcessing}
           onClick={handleCommentSubmit}
           variant={"outline"}
           colorScheme={"blue"}
         >
-          저장
+          <FontAwesomeIcon icon={faPencil} />
         </Button>
       </Box>
     </Flex>
