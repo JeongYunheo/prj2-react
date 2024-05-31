@@ -8,6 +8,7 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
+  Stack,
   Textarea,
   useDisclosure,
 } from "@chakra-ui/react";
@@ -49,12 +50,14 @@ export function CommentEdit({
     <Flex>
       <Box>
         <Textarea
+          mr={3}
           value={commentText}
           onChange={(e) => setCommentText(e.target.value)}
         />
       </Box>
-      <Box>
+      <Stack>
         <Button
+          size="sm"
           variant={"outline"}
           colorScheme={"gray"}
           onClick={() => setIsEditing(false)}
@@ -62,6 +65,7 @@ export function CommentEdit({
           <FontAwesomeIcon icon={faDeleteLeft} />
         </Button>
         <Button
+          size={"sm"}
           isLoading={isProcessing}
           onClick={onOpen}
           variant={"outline"}
@@ -69,7 +73,7 @@ export function CommentEdit({
         >
           <FontAwesomeIcon icon={faPencil} />
         </Button>
-      </Box>
+      </Stack>
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>

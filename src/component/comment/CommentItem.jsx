@@ -9,6 +9,7 @@ import {
   ModalHeader,
   ModalOverlay,
   Spacer,
+  Text,
   useDisclosure,
   useToast,
 } from "@chakra-ui/react";
@@ -46,35 +47,41 @@ export function CommentItem({ comment, isProcessing, setIsProcessing }) {
 
   return (
     <Box>
-      <Box border={"1px solid black"} my={3}>
-        <Flex>
-          <Box>{comment.nickName}</Box>
-          <Spacer />
-          <Box>{comment.inserted}</Box>
-        </Flex>
-        {isEditing || (
+      <Flex mb={3}>
+        <Box>
           <Flex>
-            <Box>{comment.comment}</Box>
+            <Text fontWeight={600}>{comment.nickName}</Text>
             <Spacer />
-            {account.hasAccess(comment.memberId) && (
-              <Box>
-                <Button
-                  colorScheme={"purple"}
-                  onClick={() => setIsEditing(true)}
-                >
-                  수정
-                </Button>
-                <Button
-                  isLoading={isProcessing}
-                  colorScheme={"red"}
-                  onClick={onOpen}
-                >
-                  <FontAwesomeIcon icon={faTrash} />
-                </Button>
-              </Box>
-            )}
+            <Text>{comment.inserted}</Text>
           </Flex>
-        )}
+        </Box>
+        <Box>
+          {isEditing || (
+            <Flex>
+              <Box>{comment.comment}</Box>
+              <Spacer />
+              {account.hasAccess(comment.memberId) && (
+                <Box>
+                  <Button
+                    size={"sm"}
+                    colorScheme={"purple"}
+                    onClick={() => setIsEditing(true)}
+                  >
+                    수정
+                  </Button>
+                  <Button
+                    size={"sm"}
+                    isLoading={isProcessing}
+                    colorScheme={"red"}
+                    onClick={onOpen}
+                  >
+                    <FontAwesomeIcon icon={faTrash} />
+                  </Button>
+                </Box>
+              )}
+            </Flex>
+          )}
+        </Box>
         {isEditing && (
           <CommentEdit
             comment={comment}
@@ -90,7 +97,9 @@ export function CommentItem({ comment, isProcessing, setIsProcessing }) {
               <ModalHeader>삭제 확인</ModalHeader>
               <ModalBody>댓글을 삭제하시겠습니까?</ModalBody>
               <ModalFooter>
-                <Button onClick={onClose}>취소</Button>
+                <Button mr={2} onClick={onClose}>
+                  취소
+                </Button>
                 <Button
                   isLoading={isProcessing}
                   colorScheme={"red"}
@@ -102,7 +111,7 @@ export function CommentItem({ comment, isProcessing, setIsProcessing }) {
             </ModalContent>
           </Modal>
         )}
-      </Box>
+      </Flex>
     </Box>
   );
 }
