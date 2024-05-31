@@ -4,6 +4,8 @@ import axios from "axios";
 import {
   Box,
   Button,
+  Card,
+  CardBody,
   Flex,
   FormControl,
   FormLabel,
@@ -109,7 +111,7 @@ export function BoardView() {
   }
 
   return (
-    <Box>
+    <Box mb={10}>
       <Flex>
         <Heading>{board.id}번 게시물</Heading>
         <Spacer />
@@ -129,7 +131,7 @@ export function BoardView() {
                 {like.like || <FontAwesomeIcon icon={emptyHeart} />}
               </Box>
             </Tooltip>
-            <Box fontSize={"3xl"}>{like.count}</Box>
+            {like.count > 0 && <Box fontSize={"3xl"}>{like.count}</Box>}
           </Flex>
         )}
         {isLikeProcess && (
@@ -138,38 +140,40 @@ export function BoardView() {
           </Box>
         )}
       </Flex>
-      <Box>
+      <Box mt={3}>
         <FormControl>
           <FormLabel>제목</FormLabel>
           <Input value={board.title} readOnly />
         </FormControl>
       </Box>
-      <Box>
+      <Box mt={3}>
         <FormControl>
           <FormLabel>본문</FormLabel>
           <Textarea value={board.content} readOnly />
         </FormControl>
       </Box>
-      <Box>
+      <Box mt={3}>
         {board.fileList &&
           board.fileList.map((file) => (
-            <Box border={"2px solid black"} m={3} key={file.name}>
-              <Image src={file.src} />
-            </Box>
+            <Card m={3} key={file.name}>
+              <CardBody>
+                <Image src={file.src} w={"100%"} />
+              </CardBody>
+            </Card>
           ))}
       </Box>
-      <Box>
+      <Box mt={3}>
         <FormControl>
           <FormLabel>작성자</FormLabel>
           <Input value={board.writer} readOnly />
         </FormControl>
       </Box>
-      <Box>
+      <Box mt={3}>
         <FormControl>작성일시</FormControl>
         <Input type={"datetime-local"} value={board.inserted} readOnly />
       </Box>
       {account.hasAccess(board.memberId) && (
-        <Box>
+        <Box mt={5}>
           <Button
             colorScheme={"purple"}
             onClick={() => navigate(`/edit/${board.id}`)}
@@ -190,10 +194,12 @@ export function BoardView() {
           <ModalHeader />
           <ModalBody>삭제하시겠습니까?</ModalBody>
           <ModalFooter>
-            <Button onClick={onClose}>취소</Button>
-            <Button colorScheme={"red"} onClick={handleClickRemove}>
-              확인
-            </Button>
+            <Flex gap={2}>
+              <Button onClick={onClose}>취소</Button>
+              <Button colorScheme={"red"} onClick={handleClickRemove}>
+                확인
+              </Button>
+            </Flex>
           </ModalFooter>
         </ModalContent>
       </Modal>
