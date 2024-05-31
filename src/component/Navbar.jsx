@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { Center, Flex, Hide, Show, Spacer } from "@chakra-ui/react";
+import { Box, Center, Flex, Hide, Show, Spacer } from "@chakra-ui/react";
 import React, { useContext } from "react";
 import { LoginContext } from "./LoginProvider.jsx";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -67,8 +67,10 @@ export function Navbar() {
           fontSize={20}
           fontWeight="bold"
         >
-          <FontAwesomeIcon icon={faUser} />
-          {account.nickName}
+          <Box>
+            <FontAwesomeIcon icon={faUser} />
+          </Box>
+          <Box ml={2}>{account.nickName}</Box>
         </Center>
       )}
       {account.isAdmin() && (
