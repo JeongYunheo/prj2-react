@@ -126,7 +126,7 @@ export function BoardList() {
       </Box>
       <Center mb={10}>
         <Flex gap={1}>
-          <Box>
+          <Box mt={5}>
             <Select
               value={searchType}
               onChange={(e) => setSearchType(e.target.value)}
@@ -136,14 +136,14 @@ export function BoardList() {
               <option value={"nickName"}>작성자</option>
             </Select>
           </Box>
-          <Box>
+          <Box mt={5}>
             <Input
               value={searchKeyword}
               onChange={(e) => setSearchKeyword(e.target.value)}
               placeholder={"검색어"}
             />
           </Box>
-          <Box>
+          <Box mt={5}>
             <Button onClick={handleSearchClick}>
               <FontAwesomeIcon icon={faMagnifyingGlass} />
             </Button>

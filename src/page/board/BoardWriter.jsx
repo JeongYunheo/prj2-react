@@ -1,10 +1,16 @@
 import {
   Box,
   Button,
+  Card,
+  CardBody,
+  CardHeader,
   FormControl,
   FormHelperText,
   FormLabel,
+  Heading,
   Input,
+  Stack,
+  StackDivider,
   Textarea,
   useToast,
 } from "@chakra-ui/react";
@@ -71,25 +77,31 @@ export function BoardWriter() {
   // file list
   const fileNameList = [];
   for (let i = 0; i < files.length; i++) {
-    fileNameList.push(<li>{files[i].name}</li>);
+    fileNameList.push(
+      <Box>
+        <text fontSize={"mb"}>{files[i].name}</text>
+      </Box>,
+    );
   }
 
   return (
     <Box>
-      <Box>글 작성 화면</Box>
-      <Box>
+      <Box mb={10}>
+        <Heading>새 글 작성</Heading>
+      </Box>
+      <Box mt={3}>
         <FormControl>
           <FormLabel>제목</FormLabel>
           <Input onChange={(e) => setTitle(e.target.value)} />
         </FormControl>
       </Box>
-      <Box>
+      <Box mt={3}>
         <FormControl>
           <FormLabel>본문</FormLabel>
           <Textarea onChange={(e) => setContent(e.target.value)} />
         </FormControl>
       </Box>
-      <Box>
+      <Box mt={3}>
         <FormControl>
           <FormLabel>파일</FormLabel>
           <Input
@@ -103,14 +115,25 @@ export function BoardWriter() {
           <FormHelperText>총 용량은 10MB를 초과할 수 없습니다</FormHelperText>
         </FormControl>
       </Box>
-      <Box>
-        <ul>{fileNameList}</ul>
-      </Box>
-      <Box>
+      {fileNameList.length > 0 && (
+        <Box mt={3}>
+          <Card>
+            <CardHeader>
+              <Heading size={"mb"}>선택된 파일 목록</Heading>
+            </CardHeader>
+            <CardBody>
+              <Stack divider={<StackDivider />} spacing={4}>
+                {fileNameList}
+              </Stack>
+            </CardBody>
+          </Card>
+        </Box>
+      )}
+      <Box mt={3}>
         <FormLabel>작성자</FormLabel>
         <Input readOnly value={account.nickName} />
       </Box>
-      <Box>
+      <Box mt={5}>
         <Button
           isLoading={loading}
           isDisabled={disableSaveButton}
