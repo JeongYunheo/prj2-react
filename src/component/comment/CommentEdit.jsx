@@ -78,7 +78,7 @@ export function CommentEdit({
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>수정확인</ModalHeader>
-          <ModalBody>댓글을 저장하시겠습니까></ModalBody>
+          <ModalBody>댓글을 저장하시겠습니까?</ModalBody>
           <ModalFooter>
             <Button colorScheme={"gray"} onClick={onClose}>
               취소
